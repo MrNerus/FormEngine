@@ -1,0 +1,29 @@
+<div class="upload-wrapper">
+  <input
+    type="file"
+    [id]="field.id"
+    [formControlName]="field.name"
+    (change)="onFileSelected($event)"
+    hidden
+  />
+  <label [for]="field.id" class="upload-label">
+    <span class="material-icons-outlined icon">cloud_upload</span>
+    {{ field.label }}
+  </label>
+
+  @if (previewUrl()) {
+    <div class="preview-container">
+      <img [src]="previewUrl()" alt="Image Preview" class="preview-image" />
+    </div>
+  }
+
+  @if (uploading()) {
+    <div class="progress-bar">
+      <div class="progress" [style.width.%]="uploadProgress()"></div>
+    </div>
+  }
+
+  @if (uploadError()) {
+    <small class="error-text">{{ uploadError() }}</small>
+  }
+</div>

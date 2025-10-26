@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  @for (field of fields; track field.id) {
+    <app-text-box
+      [field]="field"
+      [form]="form"
+    ></app-text-box>
+  }
+
+  <app-multi-file-upload formControlName="fileSets"></app-multi-file-upload>
+
+  <button type="submit" [disabled]="form.invalid" class="submit-btn">
+    Submit
+  </button>
+</form>

@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Add Files to {{ data.set.name }}</h2>
+<mat-dialog-content cdkDropList (cdkDropListDropped)="drop($event)">
+  <div class="file-list">
+    @for (file of files(); track file.id) {
+      <div class="file-item" cdkDrag>
+        <div class="drag-handle" cdkDragHandle>
+          <span class="material-symbols-outlined">drag_indicator</span>
+        </div>
+        @if (file.previewUrl) {
+          <img [src]="file.previewUrl" class="file-preview" />
+        } @else {
+          <div class="file-icon">
+            <mat-icon>insert_drive_file</mat-icon>
+          </div>
+        }
+        <div class="file-name">{{ file.file.name }}</div>
+        <div class="file-status">
+          @if (file.status === 'uploading') {
+            <mat-progress-bar mode="determinate" [value]="file.progress"></mat-progress-bar>
+          } @else if (file.status === 'success') {
+            <mat-icon class="success-icon">check_circle</mat-icon>
+          } @else if (file.status === 'error') {
+            <mat-icon class="error-icon">error</mat-icon>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  <input type="file" multiple (change)="onFileSelected($event)" #fileInput hidden />
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button (click)="fileInput.click()">Add Files</button>
+  <span class="spacer"></span>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onApply()">Apply</button>
+</mat-dialog-actions>
