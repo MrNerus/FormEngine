@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>Add Files to {{ data.set.name }}</h2>
+<h2 mat-dialog-title>Add Files to {{ data.set.documentName }}</h2>
 <mat-dialog-content cdkDropList (cdkDropListDropped)="drop($event)">
   <div class="file-list">
-    @for (file of files(); track file.id) {
+    @for (file of files(); track file.sn) {
       <div class="file-item" cdkDrag>
         <div class="drag-handle" cdkDragHandle>
           <span class="material-symbols-outlined">drag_indicator</span>
@@ -10,17 +10,20 @@
           <img [src]="file.previewUrl" class="file-preview" />
         } @else {
           <div class="file-icon">
-            <mat-icon>insert_drive_file</mat-icon>
+            <span class="material-symbols-outlined">insert_drive_file</span>
           </div>
         }
-        <div class="file-name">{{ file.file.name }}</div>
+        <div class="file-name">{{ file.fileName }}</div>
+        <button mat-icon-button (click)="removeFile(file.sn)" class="remove-file-btn">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
         <div class="file-status">
           @if (file.status === 'uploading') {
             <mat-progress-bar mode="determinate" [value]="file.progress"></mat-progress-bar>
           } @else if (file.status === 'success') {
-            <mat-icon class="success-icon">check_circle</mat-icon>
+            <span class="material-symbols-outlined">check_circle</span>
           } @else if (file.status === 'error') {
-            <mat-icon class="error-icon">error</mat-icon>
+            <span class="material-symbols-outlined">error</span>
           }
         </div>
       </div>

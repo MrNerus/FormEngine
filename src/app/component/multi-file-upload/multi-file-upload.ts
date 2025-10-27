@@ -1,25 +1,11 @@
-import { ChangeDetectionStrategy, Component, forwardRef, signal, OnInit } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, forwardRef, signal, OnInit, input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MockBackendService } from '../../services/mock-backend';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FileUploadModalComponent } from '../file-upload-modal/file-upload-modal';
+import { IFile, IFileSet, IClientDocuments } from '../../models/DTOs';
 
-export interface FileUpload {
-  id: string;
-  file: File;
-  previewUrl: string | null;
-  progress: number;
-  error: string | null;
-  uploadedUrl: string | null;
-  serialNumber: number;
-}
-
-export interface FileSet {
-  id: string;
-  name: string;
-  files: FileUpload[];
-}
 
 @Component({
   selector: 'app-multi-file-upload',
@@ -28,21 +14,10 @@ export interface FileSet {
   templateUrl: './multi-file-upload.html',
   styleUrls: ['./multi-file-upload.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MultiFileUploadComponent),
-      multi: true,
-    },
-  ],
 })
-export class MultiFileUploadComponent implements ControlValueAccessor, OnInit {
-  fileSets = signal<FileSet[]>([]);
-  touched = signal(false);
-  disabled = signal(false);
-
-  onChange = (value: any) => {};
-  onTouched = () => {};
+export class MultiFileUploadComponent implements OnInit {
+  parentForm = input.required<FormGroup>();
+  fileSets = signal<IFileSet[]>([]);
 
   constructor(
     private mockBackend: MockBackendService,
@@ -50,68 +25,33 @@ export class MultiFileUploadComponent implements ControlValueAccessor, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.mockBackend.getPredefinedSets().subscribe(setNames => {
-      const sets = setNames.map(name => ({
-        id: name.replace(/\s+/g, '-').toLowerCase(),
-        name,
-        files: [],
-      }));
-      this.fileSets.set(sets);
+    this.mockBackend.getPredefinedSets().subscribe(fileSets => {
+      this.fileSets.set(fileSets);
     });
   }
 
-  writeValue(value: any): void {
-    // Can be implemented to load initial file sets
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.disabled.set(isDisabled);
-  }
-
-  openUploadModal(set: FileSet): void {
+  openUploadModal(set: IFileSet): void {
     const dialogRef = this.dialog.open(FileUploadModalComponent, {
-      width: '600px',
-      data: { set },
+      width: '40rem',
+      data: { set, clientData: this.parentForm().value },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: IFile[] | undefined) => {
       if (result) {
         this.fileSets.update(sets =>
-          sets.map(s => (s.id === set.id ? { ...s, files: result } : s))
+          sets.map(s => (s.documentId === set.documentId ? { ...s, files: result } : s))
         );
-        this.updateFormValue();
       }
     });
   }
 
-  removeFile(fileId: string, setId: string): void {
+  removeFile(sn: number, documentId: number): void {
     this.fileSets.update(sets =>
       sets.map(s =>
-        s.id === setId
-          ? { ...s, files: s.files.filter(f => f.id !== fileId) }
+        s.documentId === documentId
+          ? { ...s, files: s.files?.filter(f => f.sn !== sn) ?? null }
           : s
       )
     );
-    this.updateFormValue();
-  }
-
-  updateFormValue(): void {
-    const value = this.fileSets().map(set => ({
-      id: set.id,
-      name: set.name,
-      files: set.files
-        .filter(f => f.uploadedUrl)
-        .map(f => ({ id: f.id, url: f.uploadedUrl!, serialNumber: f.serialNumber })),
-    }));
-    this.onChange(value);
-    this.onTouched();
   }
 }

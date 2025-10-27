@@ -14,11 +14,20 @@ export class Form {
 
   fields: IFormInput[] = [
     {
-      id: 'username',
-      name: 'username',
-      label: 'Username',
+      id: 'businessName',
+      name: 'businessName',
+      label: 'Business Name',
       type: 'text',
-      placeholder: 'Enter username',
+      placeholder: 'Enter Business Name',
+      required: true,
+      icon: 'person',
+    },
+    {
+      id: 'panNo',
+      name: 'panNo',
+      label: 'PAN Number',
+      type: 'text',
+      placeholder: 'Enter PAN Number',
       required: true,
       icon: 'person',
     },

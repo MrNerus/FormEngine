@@ -1,26 +1,22 @@
 <div class="multi-upload-wrapper">
-  @for (set of fileSets(); track set.id) {
+  @for (set of fileSets(); track set.documentId) {
     <div class="file-set">
       <div class="set-header">
-        <h3>{{ set.name }}</h3>
+        <h3>{{ set.documentName }}</h3>
         <button (click)="openUploadModal(set)" class="add-files-btn">
-          Manage Files ({{ set.files.length }})
+          Manage Files ({{ set.files?.length ?? 0 }})
         </button>
       </div>
 
       <div class="files-grid">
-        @for (file of set.files; track file.id) {
+        @for (file of set.files; track file.sn) {
           <div class="file-item">
-            <div class="serial-number">{{ file.serialNumber }}</div>
-            @if (file.previewUrl) {
-              <img [src]="file.previewUrl" alt="Preview" class="file-preview" />
-            } @else {
-              <div class="file-icon">
-                <span class="material-icons-outlined">insert_drive_file</span>
-              </div>
-            }
-            <div class="file-name">{{ file.file.name }}</div>
-            <button (click)="removeFile(file.id, set.id)" class="remove-file-btn">X</button>
+            <div class="serial-number">{{ file.sn }}</div>
+            <div class="file-icon">
+              <span class="material-symbols-outlined">insert_drive_file</span>
+            </div>
+            <div class="file-name">{{ file.fileName }}</div>
+            <button (click)="removeFile(file.sn, set.documentId)" class="remove-file-btn">X</button>
           </div>
         }
       </div>
