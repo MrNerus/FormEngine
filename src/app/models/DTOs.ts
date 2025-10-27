@@ -9,7 +9,8 @@ export interface IFileSet {
 export interface IFile {
     fileName: string,
     sn: number,
-    link: string | null
+    link: string | null,
+    s3Key: string | null
 }
 
 export interface IClientDocuments {

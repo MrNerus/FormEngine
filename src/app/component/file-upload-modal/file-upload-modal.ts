@@ -53,6 +53,7 @@ export class FileUploadModalComponent {
           sn: this.files().length + index + 1,
           fileName: file.name,
           status: 'new',
+          s3Key: null
         };
         if (file.type.startsWith('image')) {
           const reader = new FileReader();
@@ -86,7 +87,7 @@ export class FileUploadModalComponent {
       panNo: this.data.clientData.panNo,
       document: {
         ...this.data.set,
-        files: this.files().map(f => ({ fileName: f.fileName, sn: f.sn, link: f.link }))
+        files: this.files().map(f => ({ fileName: f.fileName, sn: f.sn, link: f.link, s3Key: f.s3Key }))
       }
     };
 
@@ -98,6 +99,7 @@ export class FileUploadModalComponent {
           if (correspondingFile && correspondingFile.link) {
             localFile.status = 'uploading';
             localFile.link = correspondingFile.link;
+            localFile.s3Key = correspondingFile.s3Key;
             return this.imageUploadService.uploadFileToS3(localFile.file, correspondingFile.link).pipe(
               tap((progress: number) => {
                 localFile.progress = progress;
@@ -116,7 +118,7 @@ export class FileUploadModalComponent {
     ).subscribe({
       next: () => {
         // All uploads are complete
-        const finalFiles = this.files().map(f => ({ fileName: f.fileName, sn: f.sn, link: f.link }));
+        const finalFiles = this.files().map(f => ({ fileName: f.fileName, sn: f.sn, link: f.link, s3Key: f.s3Key }));
         this.dialogRef.close(finalFiles);
       },
       error: (err: any) => {
