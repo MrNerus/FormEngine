@@ -6,7 +6,7 @@
     ></app-text-box>
   }
 
-  <app-multi-file-upload [parentForm]="form"></app-multi-file-upload>
+  <app-multi-file-upload formControlName="fileSets" [businessName]="form.get('businessName')?.value" [panNo]="form.get('panNo')?.value"></app-multi-file-upload>
 
   <button type="submit" [disabled]="form.invalid" class="submit-btn">
     Submit
