@@ -31,6 +31,10 @@ export interface IFormBase {
   name: string;
   label: string;
   type: InputType;
+  icon?: string | null;
+}
+
+export interface IInputBase extends IFormBase {
   default?: string | number | boolean | null;
   placeholder?: string | number | null;
   required?: boolean;
@@ -38,7 +42,6 @@ export interface IFormBase {
   readonly?: boolean;
   tabindex?: number;
   autocomplete?: string | null;
-  icon?: string | null;
 }
 
 export type InputType =
@@ -55,41 +58,48 @@ export type InputType =
   | "select"
   | "textarea"
   | "image"
-  | "file";
+  | "file"
+  | "subForm";
 
-export interface ITextInput extends IFormBase {
+export interface ITextInput extends IInputBase {
   type: "text" | "email" | "password" | "tel" | "url" | "textarea";
   pattern?: string | null;
   maxLength?: number | null;
 }
 
-export interface INumberInput extends IFormBase {
+export interface INumberInput extends IInputBase {
   type: "number" | "range";
   min?: number | null;
   max?: number | null;
   step?: number | null;
 }
 
-export interface ISelectInput extends IFormBase {
+export interface ISelectInput extends IInputBase {
   type: "select";
   options: { label: string; value: string | number }[];
 }
 
-export interface IRadioInput extends IFormBase {
+export interface IRadioInput extends IInputBase {
   type: "radio";
   options: { label: string; value: string | number }[];
 }
 
-export interface ICheckboxInput extends IFormBase {
+export interface ICheckboxInput extends IInputBase {
   type: "check";
 }
 
-export interface IImageInput extends IFormBase {
+export interface IImageInput extends IInputBase {
   type: "image";
 }
 
-export interface IFileInput extends IFormBase {
+export interface IFileInput extends IInputBase {
   type: "file";
+}
+
+export interface IFormList extends IFormBase {
+  type: "subForm";
+  count?: number;
+  fields: IFormElement[];
 }
 
 export type IFormInput =
@@ -99,5 +109,10 @@ export type IFormInput =
   | IRadioInput
   | ICheckboxInput
   | IImageInput
-  | IFileInput;
+  | IFileInput
+
+export type IFormElement =
+  | IFormInput
+  | IFormList;
+
 

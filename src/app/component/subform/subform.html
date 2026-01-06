@@ -1,0 +1,11 @@
+@if (field.type === 'subForm') {
+<app-accordion [title]="field.label">
+    @for (child of field.fields; track child.id) {
+    <app-subform [field]="child" [form]="form">
+    </app-subform>
+    }
+</app-accordion>
+} @else {
+<app-text-box [field]="field" [form]="form">
+</app-text-box>
+}

@@ -1,14 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   @for (field of fields; track field.id) {
-    <app-text-box
-      [field]="field"
-      [form]="form"
-    ></app-text-box>
+  <app-subform [field]="field" [form]="form">
+  </app-subform>
   }
 
-  <app-multi-file-upload formControlName="fileSets" [businessName]="form.get('businessName')?.value" [panNo]="form.get('panNo')?.value"></app-multi-file-upload>
+
+  <!-- <app-multi-file-upload formControlName="fileSets" [businessName]="form.get('businessName')?.value"
+    [panNo]="form.get('panNo')?.value"></app-multi-file-upload>
 
   <button type="submit" [disabled]="form.invalid" class="submit-btn">
     Submit
   </button>
+
+  <app-accordion title="Accordion 1">
+    <p>Content of Accordion 1</p>
+  </app-accordion>
+
+  <app-accordion title="Accordion 2">
+    <p>Content of Accordion 2</p>
+  </app-accordion> -->
 </form>

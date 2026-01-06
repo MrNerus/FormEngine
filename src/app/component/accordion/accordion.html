@@ -1,0 +1,9 @@
+<div class="accordion" (click)="toggle()" #accordionTitle>
+    <span>{{title}}</span>
+    <span class="material-symbols-outlined icon">{{ isOpen ? 'expand_less' : 'expand_more' }}</span>
+</div>
+<div class="panel" #accordionBody>
+    <div class="content" #accordionContent>
+        <ng-content></ng-content>
+    </div>
+</div>
