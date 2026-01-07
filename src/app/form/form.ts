@@ -66,76 +66,157 @@ export class Form {
 
   fields: IFormElement[] = [
     {
-      id: 'productMain',
-      name: 'productMain',
-      label: 'Product',
+      id: 'schemaName',
+      name: 'schemaName',
+      label: 'Schema Name',
+      type: 'text',
+      placeholder: 'Enter Schema Name',
+    },
+    {
+      id: 'title',
+      name: 'title',
+      label: 'Title',
+      type: 'text',
+      placeholder: 'Enter Title',
+    },
+    {
+      id: 'apiEndPoint',
+      name: 'apiEndPoint',
+      label: 'API End Point',
+      type: 'text',
+      placeholder: 'Enter API End Point',
+    },
+    {
+      id: 'mainTable',
+      name: 'mainTable',
+      label: 'Main Table',
+      type: 'text',
+      placeholder: 'Enter Main Table',
+    },
+    {
+      id: 'keyColumn',
+      name: 'keyColumn',
+      label: 'Key Column',
+      type: 'text',
+      placeholder: 'Enter Key Column',
+    },
+    {
+      id: 'columns',
+      name: 'columns',
+      label: 'Columns',
       type: 'subForm',
+      count: 5,
       fields: [
         {
-          id: 'desca',
-          name: 'desca',
-          label: 'Product Name',
+          id: 'key',
+          name: 'key',
+          label: 'Key',
           type: 'text',
-          placeholder: 'Enter Product Name',
+          placeholder: 'Enter Key',
         },
         {
-          id: 'menucode',
-          name: 'menucode',
-          label: 'Item Code',
+          id: 'dbKey',
+          name: 'dbKey',
+          label: 'DB Key',
           type: 'text',
-          placeholder: 'Enter Item Code',
+          placeholder: 'Enter DB Key',
+        },
+        {
+          id: 'title',
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+          placeholder: 'Enter Title',
+        },
+        {
+          id: 'hidden',
+          name: 'hidden',
+          label: 'Hidden',
+          type: 'check',
+        },
+        {
+          id: 'noSearch',
+          name: 'noSearch',
+          label: 'No Search',
+          type: 'check',
+        },
+        {
+          id: 'columnNgStyle',
+          name: 'columnNgStyle',
+          label: 'Column Ng Style',
+          type: 'text',
+          placeholder: 'Enter Column Ng Style',
+        },
+        {
+          id: 'focusTo',
+          name: 'focusTo',
+          label: 'Focus To',
+          type: 'text',
+          placeholder: 'Enter Focus To',
+        },
+        {
+          id: 'appliedDecimalPipe',
+          name: 'appliedDecimalPipe',
+          label: 'Applied Decimal Pipe',
+          type: 'check',
+        },
+        {
+          id: 'sourceTableAlias',
+          name: 'sourceTableAlias',
+          label: 'Source Table Alias',
+          type: 'text',
+          placeholder: 'Enter Source Table Alias',
+        },
+        {
+          id: 'sourceTable',
+          name: 'sourceTable',
+          label: 'Source Table',
+          type: 'text',
+          placeholder: 'Enter Source Table',
+        },
+        {
+          id: 'dataType',
+          name: 'dataType',
+          label: 'Data Type',
+          type: 'text',
+          placeholder: 'Enter Data Type',
+        },
+      ]
+    },
+    {
+      id: 'relationalJoins',
+      name: 'relationalJoins',
+      label: 'Relational Joins',
+      type: 'subForm',
+      count: 5,
+      fields: [
+        {
+          id: 'sourceTable',
+          name: 'sourceTable',
+          label: 'Source Table',
+          type: 'text',
+          placeholder: 'Enter Source Table',
+        },
+        {
+          id: 'query',
+          name: 'query',
+          label: 'Query',
+          type: 'text',
+          placeholder: 'Enter Query',
         }
       ]
     },
     {
-      id: 'parentGroup',
-      name: 'parentGroup',
-      label: 'Parent Group',
+      id: 'whereClause',
+      name: 'whereClause',
+      label: 'Where Clause',
       type: 'subForm',
+      count: 5,
       fields: [
         {
-          id: 'parentGroupName',
-          name: 'parentGroup',
-          label: 'Parent Group',
-          type: 'text',
-          placeholder: 'Enter Parent Group',
-        }
-      ]
-    },
-    {
-      id: 'itemAttributes',
-      name: 'itemAttributes',
-      label: 'Item Attributes',
-      type: 'subForm',
-      fields: [
-        {
-          id: 'drinkable',
-          name: 'drinkable',
-          label: 'Drinkable',
-          type: 'text',
-        },
-        {
-          id: 'gin',
-          name: 'gin',
-          label: 'Gin',
-          type: 'text',
-        },
-        {
-          id: 'attr1',
-          name: 'attr1',
-          label: 'Attr1',
-          type: 'text',
-        },
-        {
-          id: 'attr2',
-          name: 'attr2',
-          label: 'Attr2',
-          type: 'text',
-        },
-        {
-          id: 'attr3',
-          name: 'attr3',
-          label: 'Attr3',
+          id: 'query',
+          name: 'query',
+          label: 'Query',
           type: 'text',
         }
       ]
@@ -145,16 +226,20 @@ export class Form {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    let group: any = {};
-    this.fields.forEach(f => {
-      if (f.type === 'subForm') { }
-      else {
-        group[f.name] = [
-          f.default || '',
-          f.required ? Validators.required : []
-        ];
-      }
-    });
+    const group: any = {};
+    const registerControls = (fields: IFormElement[]) => {
+      fields.forEach(f => {
+        if (f.type === 'subForm' && f.fields) {
+          registerControls(f.fields);
+        } else if (f.type !== 'subForm') {
+          group[f.name] = [
+            f.default || '',
+            f.required ? Validators.required : []
+          ];
+        }
+      });
+    };
+    registerControls(this.fields);
     // group['fileSets'] = [[]]; // Add form control for file sets
     this.form = this.fb.group(group);
   }

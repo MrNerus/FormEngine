@@ -19,6 +19,21 @@ export class TextBox {
     return this.control?.invalid && (this.control.dirty || this.control.touched);
   }
 
+  get isSubForm() {
+    return false;
+  }
+
+  get valueObj() {
+    if (this.isInvalid) {
+      console.error(`Invalid data on "${this.field.label}" (${this.field.name}). Value: ${this.control?.value}`);
+      return null
+    }
+    return {
+      name: this.field.name,
+      value: this.control?.value
+    }
+  }
+
   isNumericInput(field: IFormInput): field is INumberInput {
     return field.type === 'number' || field.type === 'range';
   }

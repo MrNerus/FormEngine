@@ -31,5 +31,6 @@
 
 .panel .content {
     min-height: 0;
+    transition: 0.2s ease-out;
     /* padding: 0.5rem 1rem; */
 }

@@ -1,8 +1,17 @@
 @if (field.type === 'subForm') {
-<app-accordion [title]="field.label">
-    @for (child of field.fields; track child.id) {
-    <app-subform [field]="child" [form]="form">
-    </app-subform>
+<app-accordion [title]="field.label" #accordion>
+    @for (i of repeat(field.count || 1); track i) {
+    <div class="subform">
+        @for (child of field.fields; track child.id) {
+        @if (child.type === 'subForm') {
+        <app-subform [field]="child" [form]="form">
+        </app-subform>
+        } @else {
+        <app-text-box [field]="child" [form]="form">
+        </app-text-box>
+        }
+        }
+    </div>
     }
 </app-accordion>
 } @else {

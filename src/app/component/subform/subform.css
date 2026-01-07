@@ -1,0 +1,9 @@
+.subform {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
+    border: 1px solid #ccc4;
+}
+
+.subform:hover {
+    border: 1px solid #ccca;
+}
