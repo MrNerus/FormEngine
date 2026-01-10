@@ -1,1 +1,19 @@
 <router-outlet />
+<div class="container">
+    <div class="input">
+        <div class="schema">
+            <app-text-box
+                [field]="{id: 'InputSchema', name: 'InputSchema', label: 'Input Schema', type: 'textarea', default: initialSchemaString()}"
+                #inputSchema></app-text-box>
+            <button (click)="onApply()">Apply Schema</button>
+        </div>
+
+        <div class="form-preview">
+            <h3>Preview</h3>
+            <app-form [fields]="currentSchema()" (formValueChange)="updateFormValue($event)"></app-form>
+        </div>
+    </div>
+    <div class="output">
+        <pre><code class="language-json" #jsonOutput></code></pre>
+    </div>
+</div>

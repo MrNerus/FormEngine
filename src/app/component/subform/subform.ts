@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { IFormElement, IFormInput, IFormList, TextBox } from '../text-box/text-box';
 import { Accordion } from "../accordion/accordion";
 
@@ -8,19 +8,37 @@ import { Accordion } from "../accordion/accordion";
   imports: [Accordion, TextBox],
   templateUrl: './subform.html',
   styleUrl: './subform.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Subform {
-  @Input({ required: true }) field!: IFormElement;
-  @Input({ required: true }) form!: FormGroup;
+  field = input.required<IFormElement>();
+  form = input.required<FormGroup>();
 
-  repeat(count: number): number[] {
-    return Array.from({ length: count }, (_, i) => i);
+  get controls(): AbstractControl[] {
+    const control = this.form().get(this.field().name);
+    if (control instanceof FormArray) {
+      return control.controls;
+    }
+    return [];
   }
 
-  get valueObj() {
-    var obj: { [key: string]: any } = {}
-    // if it is Subform, loop through all element instde it io get valueObj.
-    // if it is iforminput, get valueObj.
-    return null
+  asFormGroup(control: AbstractControl): FormGroup {
+    return control as FormGroup;
+  }
+
+  asFormInput(field: IFormElement): IFormInput {
+    return field as IFormInput;
+  }
+
+  asFormList(field: IFormElement): IFormList {
+    return field as IFormList;
+  }
+
+  isFormInput(field: IFormElement): field is IFormInput {
+    return field.type !== 'subForm';
+  }
+
+  isFormList(field: IFormElement): field is IFormList {
+    return field.type === 'subForm';
   }
 }

@@ -30,4 +30,5 @@
 body {
   background-color: var(--color-bg);
   font-family: "Inter", sans-serif;
+  color: var(--color-text);
 }

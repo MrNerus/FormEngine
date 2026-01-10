@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    gap: 1rem;
+}
+
+.input {
+    flex: 1;
+}
+
+.output {
+    flex: 1;
+}

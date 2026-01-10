@@ -1,110 +1,113 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  font-family: "Inter", sans-serif;
+  color: var(--color-text);
+  position: relative;
+}
 
-  
-  .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-    font-family: "Inter", sans-serif;
-    color: var(--color-text);
-    position: relative;
-  }
-  
-  .input-label {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  
-  .input-field,
-  .input-select,
-  .input-textarea {
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 0.65rem 0.9rem;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-    background: var(--color-bg);
-  }
-  
-  .input-field:focus,
-  .input-select:focus,
-  .input-textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px var(--color-secondary);
-  }
-  
-  .icon {
-    font-size: 1.2rem;
-    color: var(--color-primary);
-  }
-  
-  /* Toggle switch */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 46px;
-    height: 26px;
-  }
-  
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    inset: 0;
-    background-color: var(--color-border);
-    border-radius: 34px;
-    transition: 0.4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    border-radius: 50%;
-    transition: 0.4s;
-  }
-  
-  .switch input:checked + .slider {
-    background-color: var(--color-primary);
-  }
-  
-  .switch input:checked + .slider:before {
-    transform: translateX(20px);
-  }
-  
-  /* Radio */
-  .radio-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .radio-option input[type="radio"] {
-    accent-color: var(--color-primary);
-  }
-  
-  /* Validation */
-  .error-text {
-    color: var(--color-error);
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-  }
-  
-  /* Disabled state */
-  .disabled {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-  
+.input-label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.input-field,
+.input-select,
+.input-textarea {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  transition: border 0.2s ease;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.input-field,
+.input-select {
+  transition: all 0.2s ease;
+}
+
+.input-field:focus,
+.input-select:focus,
+.input-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-secondary);
+}
+
+.icon {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--color-border);
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.switch input:checked+.slider {
+  background-color: var(--color-primary);
+}
+
+.switch input:checked+.slider:before {
+  transform: translateX(20px);
+}
+
+/* Radio */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.radio-option input[type="radio"] {
+  accent-color: var(--color-primary);
+}
+
+/* Validation */
+.error-text {
+  color: var(--color-error);
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+/* Disabled state */
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

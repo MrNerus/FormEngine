@@ -1,13 +1,13 @@
-@if (field.type === 'subForm') {
-<app-accordion [title]="field.label" #accordion>
-    @for (i of repeat(field.count || 1); track i) {
+@if (isFormList(field())) {
+<app-accordion [title]="field().label" #accordion>
+    @for (control of controls; track control) {
     <div class="subform">
-        @for (child of field.fields; track child.id) {
+        @for (child of asFormList(field()).fields; track child.id) {
         @if (child.type === 'subForm') {
-        <app-subform [field]="child" [form]="form">
+        <app-subform [field]="asFormList(child)" [form]="asFormGroup(control)">
         </app-subform>
         } @else {
-        <app-text-box [field]="child" [form]="form">
+        <app-text-box [field]="asFormInput(child)" [form]="asFormGroup(control)">
         </app-text-box>
         }
         }
@@ -15,6 +15,6 @@
     }
 </app-accordion>
 } @else {
-<app-text-box [field]="field" [form]="form">
+<app-text-box [field]="asFormInput(field())" [form]="form()">
 </app-text-box>
 }

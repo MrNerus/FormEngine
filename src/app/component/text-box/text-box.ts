@@ -1,35 +1,55 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, input, inject, computed, effect } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-text-box',
   imports: [ReactiveFormsModule],
   templateUrl: './text-box.html',
   styleUrl: './text-box.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextBox {
-  @Input({ required: true }) field!: IFormInput;
-  @Input({ required: true }) form!: FormGroup;
+  private fb = inject(FormBuilder);
+
+  field = input.required<IFormInput>();
+  form = input<FormGroup>();
+
+  internalForm = new FormGroup({});
+
+  effectiveForm = computed<FormGroup>(() => this.form() || this.internalForm);
+
+  constructor() {
+    effect(() => {
+      const form = this.effectiveForm();
+      const field = this.field();
+
+      if (!form.get(field.name)) {
+        const control = new FormControl(
+          field.default || '',
+          field.required ? Validators.required : []
+        );
+        if (form === this.internalForm) {
+          form.addControl(field.name, control);
+        }
+      }
+    });
+  }
 
   get control() {
-    return this.form.get(this.field.name);
+    return this.effectiveForm().get(this.field().name);
   }
 
   get isInvalid() {
     return this.control?.invalid && (this.control.dirty || this.control.touched);
   }
 
-  get isSubForm() {
-    return false;
-  }
-
   get valueObj() {
     if (this.isInvalid) {
-      console.error(`Invalid data on "${this.field.label}" (${this.field.name}). Value: ${this.control?.value}`);
+      console.error(`Invalid data on "${this.field().label}" (${this.field().name}). Value: ${this.control?.value}`);
       return null
     }
     return {
-      name: this.field.name,
+      name: this.field().name,
       value: this.control?.value
     }
   }
@@ -114,6 +134,7 @@ export interface IFileInput extends IInputBase {
 export interface IFormList extends IFormBase {
   type: "subForm";
   count?: number;
+  valueOnlyList?: boolean;
   fields: IFormElement[];
 }
 

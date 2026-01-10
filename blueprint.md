@@ -1,58 +1,231 @@
-# Form Engine
+[
+    {
+      id: 'schemaName',
+      name: 'schemaName',
+      label: 'Schema Name',
+      type: 'text',
+      placeholder: 'Enter Schema Name',
+    },
+    {
+      id: 'title',
+      name: 'title',
+      label: 'Title',
+      type: 'text',
+      placeholder: 'Enter Title',
+    },
+    {
+      id: 'apiEndPoint',
+      name: 'apiEndPoint',
+      label: 'API End Point',
+      type: 'text',
+      placeholder: 'Enter API End Point',
+    },
+    {
+      id: 'mainTable',
+      name: 'mainTable',
+      label: 'Main Table',
+      type: 'text',
+      placeholder: 'Enter Main Table',
+    },
+    {
+      id: 'keyColumn',
+      name: 'keyColumn',
+      label: 'Key Column',
+      type: 'text',
+      placeholder: 'Enter Key Column',
+    },
+    {
+      id: 'columns',
+      name: 'columns',
+      label: 'Columns',
+      type: 'subForm',
+      count: 5,
+      fields: [
+        {
+          id: 'key',
+          name: 'key',
+          label: 'Key',
+          type: 'text',
+          placeholder: 'Enter Key',
+        },
+        {
+          id: 'dbKey',
+          name: 'dbKey',
+          label: 'DB Key',
+          type: 'text',
+          placeholder: 'Enter DB Key',
+        },
+        {
+          id: 'title',
+          name: 'title',
+          label: 'Title',
+          type: 'text',
+          placeholder: 'Enter Title',
+        },
+        {
+          id: 'hidden',
+          name: 'hidden',
+          label: 'Hidden',
+          type: 'check',
+        },
+        {
+          id: 'noSearch',
+          name: 'noSearch',
+          label: 'No Search',
+          type: 'check',
+        },
+        {
+          id: 'columnNgStyle',
+          name: 'columnNgStyle',
+          label: 'Column Ng Style',
+          type: 'text',
+          placeholder: 'Enter Column Ng Style',
+        },
+        {
+          id: 'focusTo',
+          name: 'focusTo',
+          label: 'Focus To',
+          type: 'text',
+          placeholder: 'Enter Focus To',
+        },
+        {
+          id: 'appliedDecimalPipe',
+          name: 'appliedDecimalPipe',
+          label: 'Applied Decimal Pipe',
+          type: 'check',
+        },
+        {
+          id: 'sourceTableAlias',
+          name: 'sourceTableAlias',
+          label: 'Source Table Alias',
+          type: 'text',
+          placeholder: 'Enter Source Table Alias',
+        },
+        {
+          id: 'sourceTable',
+          name: 'sourceTable',
+          label: 'Source Table',
+          type: 'text',
+          placeholder: 'Enter Source Table',
+        },
+        {
+          id: 'dataType',
+          name: 'dataType',
+          label: 'Data Type',
+          type: 'text',
+          placeholder: 'Enter Data Type',
+        },
+      ]
+    },
+    {
+      id: 'relationalJoins',
+      name: 'relationalJoins',
+      label: 'Relational Joins',
+      type: 'subForm',
+      count: 5,
+      fields: [
+        {
+          id: 'sourceTable',
+          name: 'sourceTable',
+          label: 'Source Table',
+          type: 'text',
+          placeholder: 'Enter Source Table',
+        },
+        {
+          id: 'query',
+          name: 'query',
+          label: 'Query',
+          type: 'text',
+          placeholder: 'Enter Query',
+        }
+      ]
+    },
+    {
+      id: 'whereClause',
+      name: 'whereClause',
+      label: 'Where Clause',
+      type: 'subForm',
+      count: 5,
+      fields: [
+        {
+          id: 'query',
+          name: 'query',
+          label: 'Query',
+          type: 'text',
+        }
+      ]
+    }
+  ]
 
-## Overview
 
-This project is a dynamic and interactive form engine built with the latest features of Angular. It is designed to be a showcase of modern Angular development, including standalone components, signals for state management, and a reactive forms approach. The form includes various input types and demonstrates advanced features like conditional fields, image uploads with progress indicators, and robust error handling.
+  this is my json. it translates to:
+  [
+    IFormInput,
+    IFormInput,
+    IFormInput,
+    IFormInput,
+    IFormInput,
+    IFormList = [
+        [
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput,
+            IFormInput
+        ] (times 5)
+    ],
 
-## Project Structure
+    IFormList = [
+        [
+            IFormInput,
+            IFormInput
+        ] (times 5)
+    ],
+    IFormList = [
+        [
+            IFormInput
+        ] (times 5)
+    ]
 
-The application is organized into the following key files:
+  ]
 
-- **`app.component.ts`**: The root component that bootstraps the application.
-- **`form/form.ts`**: The main component that defines the form's structure, logic, and interactivity.
-- **`form/form.html`**: The template for the form, using native control flow and data binding.
-- **`form/form.css`**: The stylesheet for the form, with a modern and clean design.
-- **`services/image-upload.service.ts`**: A service for handling image uploads, with progress simulation.
-- **`services/mock-backend.ts`**: A mock backend service to simulate API responses for image uploads.
-- **`blueprint.md`**: This file, which outlines the project's features and development plan.
-
-## Implemented Features
-
-### Phase 1: Basic Form Structure
-
-- **Objective**: Create the initial form layout with a variety of input types, including text, date, toggle, and slider.
-- **Key Achievements**:
-    - A `FormComponent` was created with a reactive form group.
-    - The template was built with standard HTML form elements.
-    - Basic styling was applied for a clean and user-friendly interface.
-
-### Phase 2: Conditional Logic
-
-- **Objective**: Implement a conditional field that appears only when a toggle is active.
-- **Key Achievements**:
-    - The `@if` native control flow was used to conditionally render the input field.
-    - The form's state was managed with signals to ensure reactivity.
-
-### Phase 3: Image Previews
-
-- **Objective**: Add the ability to preview selected images before uploading.
-- **Key Achievements**:
-    - `onFileSelected` and `onMultipleFilesSelected` methods were implemented to handle file inputs.
-    - Signals were used to store and display image preview URLs.
-    - The template was updated to render the selected images.
-
-### Phase 4: Upload Progress
-
-- **Objective**: Provide visual feedback during image uploads with progress bars.
-- **Key Achievements**:
-    - The `ImageUploadService` was enhanced to simulate upload progress with an `Observable`.
-    - The `FormComponent` was updated to track the progress of each upload.
-    - Progress bars were added to the template, dynamically updating based on the upload status.
-
-### Phase 5: Error Handling
-
-- **Objective**: Implement robust error handling to inform the user of any upload failures.
-- **Key Achievements**:
-    - The mock backend was modified to simulate random upload failures.
-    - The `FormComponent` now catches and stores error messages.
-    - Error messages are displayed in the template to provide clear feedback to the user.
+  I want json object with their name as key.
+  [
+    schemaName: value
+    title: value
+    apiEndPoint: value
+    mainTable: value
+    keyColumn: value
+    columns: [
+        [
+            key: value,
+            dbKey: value,
+            title: value,
+            hidden: value,
+            noSearch: value,
+            columnNgStyle: value,
+            focusTo: value,
+            appliedDecimalPipe: value,
+            sourceTableAlias: value,
+            sourceTable: value,
+            dataType: value
+        ] (times 5)
+    ],
+    relationalJoins: [
+        [
+            sourceTable: value,
+            query: value
+        ] (times 5)
+    ],
+    whereClause: [
+        [
+            query: value
+        ] (times 5)
+    ]
+  ]

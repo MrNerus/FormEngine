@@ -1,62 +1,50 @@
-<div class="input-wrapper" [formGroup]="form" [class.disabled]="field.disabled">
-    <label [for]="field.id" class="input-label">
-      @if (field.icon) {
-        <span class="material-symbols-outlined icon">{{ field.icon }}</span>
-      }
-      {{ field.label }}
+<div class="input-wrapper" [formGroup]="effectiveForm()" [class.disabled]="field().disabled">
+    <label [for]="field().id" class="input-label">
+        @if (field().icon) {
+        <span class="material-symbols-outlined icon">{{ field().icon }}</span>
+        }
+        {{ field().label }}
     </label>
-  
-    @if (['text','email','password','tel','url','number','date','range'].includes(field.type)) {
-        <input
-          [formControlName]="field.name"
-          [id]="field.id"
-          [type]="field.type"
-          [placeholder]="field.placeholder || ''"
-          [attr.min]="isNumericInput(field) ? field.min : null"
-          [attr.max]="isNumericInput(field) ? field.max : null"
-          [attr.step]="isNumericInput(field) ? field.step : null"
-          [readonly]="field.readonly"
-          class="input-field"
-        />
+
+    @if (['text','email','password','tel','url','number','date','range'].includes(field().type)) {
+    <input [formControlName]="field().name" [id]="field().id" [type]="field().type"
+        [placeholder]="field().placeholder || ''" [attr.min]="isNumericInput(field()) ? $any(field()).min : null"
+        [attr.max]="isNumericInput(field()) ? $any(field()).max : null"
+        [attr.step]="isNumericInput(field()) ? $any(field()).step : null" [readonly]="field().readonly"
+        class="input-field" />
     }
-    @else if (field.type === 'textarea') {
-        <textarea
-          [formControlName]="field.name"
-          [id]="field.id"
-          [placeholder]="field.placeholder || ''"
-          [readonly]="field.readonly"
-          class="input-textarea"
-        ></textarea>
+    @else if (field().type === 'textarea') {
+    <textarea [formControlName]="field().name" [id]="field().id" [placeholder]="field().placeholder || ''"
+        [readonly]="field().readonly" class="input-textarea"></textarea>
     }
-    @else if (field.type === 'select') {
-        <select [formControlName]="field.name" [id]="field.id" class="input-select" >
-            <option value="" disabled selected hidden>Select {{ field.label }}</option>
-            @for (opt of field.options; track opt.value) {
-                <option [value]="opt.value">
-                    {{ opt.label }}
-                </option>
-            }
-        </select>
+    @else if (field().type === 'select') {
+    <select [formControlName]="field().name" [id]="field().id" class="input-select">
+        <option value="" disabled selected hidden>Select {{ field().label }}</option>
+        @for (opt of $any(field()).options; track opt.value) {
+        <option [value]="opt.value">
+            {{ opt.label }}
+        </option>
+        }
+    </select>
     }
-    @else if (field.type === 'radio') {
-        <div class="radio-group">
-            @for (opt of field.options; track opt.value) {
-                <label class="radio-option">
-                    <input type="radio" [formControlName]="field.name" [value]="opt.value" />
-                    <span>{{ opt.label }}</span>
-                </label>
-            }
-        </div>
-    }
-    @else if (field.type === 'check') {
-        <label class="switch">
-            <input type="checkbox" [formControlName]="field.name" />
-            <span class="slider"></span>
+    @else if (field().type === 'radio') {
+    <div class="radio-group">
+        @for (opt of $any(field()).options; track opt.value) {
+        <label class="radio-option">
+            <input type="radio" [formControlName]="field().name" [value]="opt.value" />
+            <span>{{ opt.label }}</span>
         </label>
+        }
+    </div>
     }
-    
+    @else if (field().type === 'check') {
+    <label class="switch">
+        <input type="checkbox" [formControlName]="field().name" />
+        <span class="slider"></span>
+    </label>
+    }
+
     @if (isInvalid) {
-        <small class="error-text">{{ field.label }} is required or invalid</small>
+    <small class="error-text">{{ field().label }} is required or invalid</small>
     }
-  </div>
-  
+</div>
