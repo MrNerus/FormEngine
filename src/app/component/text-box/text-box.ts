@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy, input, inject, computed, effect } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-text-box',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './text-box.html',
   styleUrl: './text-box.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,6 +14,7 @@ export class TextBox {
 
   field = input.required<IFormInput>();
   form = input<FormGroup>();
+  layout = input<ILayout>();
 
   internalForm = new FormGroup({});
 
@@ -43,19 +45,26 @@ export class TextBox {
     return this.control?.invalid && (this.control.dirty || this.control.touched);
   }
 
-  get valueObj() {
-    if (this.isInvalid) {
-      console.error(`Invalid data on "${this.field().label}" (${this.field().name}). Value: ${this.control?.value}`);
-      return null
-    }
-    return {
-      name: this.field().name,
-      value: this.control?.value
-    }
-  }
-
   isNumericInput(field: IFormInput): field is INumberInput {
     return field.type === 'number' || field.type === 'range';
+  }
+
+  getGridStyle(layout: ILayout | undefined): Record<string, string> {
+    if (!layout) {
+      return {
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem"
+      };
+    }
+    return {
+      display: 'grid',
+      gridTemplateRows: layout?.rowSize?.join(' ')
+        ?? `repeat(${layout?.rows ?? 1}, 1fr)`,
+      gridTemplateColumns: layout?.colSize?.join(' ')
+        ?? `repeat(${layout?.cols ?? 1}, 1fr)`,
+      gap: layout?.gap ?? '0.5rem'
+    };
   }
 
 }
@@ -67,6 +76,7 @@ export interface IFormBase {
   label: string;
   type: InputType;
   icon?: string | null;
+  valueOnly?: boolean;
 }
 
 export interface IInputBase extends IFormBase {
@@ -134,7 +144,6 @@ export interface IFileInput extends IInputBase {
 export interface IFormList extends IFormBase {
   type: "subForm";
   count?: number;
-  valueOnlyList?: boolean;
   fields: IFormElement[];
 }
 
@@ -151,4 +160,10 @@ export type IFormElement =
   | IFormInput
   | IFormList;
 
-
+export interface ILayout {
+  rows: number;
+  cols: number;
+  gap?: string;
+  rowSize?: string[];
+  colSize?: string[];
+}

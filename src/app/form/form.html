@@ -1,6 +1,6 @@
 <form [formGroup]="form()" (ngSubmit)="onSubmit()">
   @for (field of fields(); track field.id) {
-  <app-subform [field]="field" [form]="form()">
+  <app-subform [field]="field" [form]="form()" [layout]="layout()">
   </app-subform>
   }
 

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
-import { IFormElement, IFormInput, IFormList, TextBox } from '../text-box/text-box';
+import { IFormElement, IFormInput, IFormList, ILayout, TextBox } from '../text-box/text-box';
 import { Accordion } from "../accordion/accordion";
 
 @Component({
@@ -13,6 +13,7 @@ import { Accordion } from "../accordion/accordion";
 export class Subform {
   field = input.required<IFormElement>();
   form = input.required<FormGroup>();
+  layout = input<ILayout>();
 
   get controls(): AbstractControl[] {
     const control = this.form().get(this.field().name);

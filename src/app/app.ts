@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal, inject, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { IFormElement, TextBox } from "./component/text-box/text-box";
+import { IFormElement, ILayout, TextBox } from "./component/text-box/text-box";
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Form } from "./form/form";
 import Prism from 'prismjs';
@@ -21,6 +21,14 @@ export class App {
 
   currentSchema = signal<IFormElement[]>([]);
   initialSchemaString = signal<string>('');
+
+  layout = signal<ILayout>({
+    rows: 2,
+    cols: 2,
+    gap: '1rem',
+    rowSize: ["auto", "auto"],
+    colSize: ["15rem", "auto"]
+  });
 
   constructor() {
     // Initialize with a sample schema
@@ -48,7 +56,7 @@ export class App {
   }
 
   onApply() {
-    const schemaString = this.inputSchema.valueObj?.value ?? '';
+    const schemaString = this.inputSchema.control?.value ?? '';
     console.log("SchemaString", schemaString);
     try {
       const schema = JSON.parse(schemaString) as IFormElement[];

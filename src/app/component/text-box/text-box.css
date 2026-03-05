@@ -1,15 +1,23 @@
-.input-wrapper {
+/* .input-wrapper {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
   font-family: "Inter", sans-serif;
-  color: var(--color-text);
   position: relative;
+  } */
+/* input wrapper is grid. label is first row, input is also first row. message is second row full span */
+.input-wrapper {
+  color: var(--color-text);
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem;
+  font-family: "Inter", sans-serif;
 }
+
+
 
 .input-label {
   font-weight: 600;
-  margin-bottom: 0.25rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -19,7 +27,7 @@
 .input-select,
 .input-textarea {
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   padding: 0.65rem 0.9rem;
   font-size: 0.95rem;
   transition: border 0.2s ease;
@@ -104,6 +112,8 @@
   color: var(--color-error);
   font-size: 0.8rem;
   margin-top: 0.3rem;
+  grid-column-start: 1;
+  grid-column-end: -1;
 }
 
 /* Disabled state */

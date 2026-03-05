@@ -3,14 +3,15 @@
     <div class="input">
         <div class="schema">
             <app-text-box
-                [field]="{id: 'InputSchema', name: 'InputSchema', label: 'Input Schema', type: 'textarea', default: initialSchemaString()}"
+                [field]="{id: 'InputSchema', name: 'InputSchema', label: 'Input Schema', type: 'textarea', default: initialSchemaString(), valueOnly: true}"
                 #inputSchema></app-text-box>
             <button (click)="onApply()">Apply Schema</button>
         </div>
 
         <div class="form-preview">
             <h3>Preview</h3>
-            <app-form [fields]="currentSchema()" (formValueChange)="updateFormValue($event)"></app-form>
+            <app-form [fields]="currentSchema()" (formValueChange)="updateFormValue($event)"
+                [layout]="layout()"></app-form>
         </div>
     </div>
     <div class="output">

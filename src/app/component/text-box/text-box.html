@@ -1,4 +1,5 @@
-<div class="input-wrapper" [formGroup]="effectiveForm()" [class.disabled]="field().disabled">
+<div class="input-wrapper" [formGroup]="effectiveForm()" [class.disabled]="field().disabled"
+    [ngStyle]="getGridStyle(layout())">
     <label [for]="field().id" class="input-label">
         @if (field().icon) {
         <span class="material-symbols-outlined icon">{{ field().icon }}</span>
